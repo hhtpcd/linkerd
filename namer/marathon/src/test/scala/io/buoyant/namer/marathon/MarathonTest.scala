@@ -12,7 +12,7 @@ class MarathonTest extends FunSuite {
   test("sanity") {
     // ensure it doesn't totally blowup
     // We use a name that resolves here
-    val _ = MarathonConfig(Some("localhost"), None, None, None, None, None).newNamer(Stack.Params.empty)
+    val _ = MarathonConfig(Some("localhost"), None, None, None, None, None, None).newNamer(Stack.Params.empty)
   }
 
   test("service registration") {

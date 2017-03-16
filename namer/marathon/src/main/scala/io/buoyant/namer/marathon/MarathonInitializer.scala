@@ -100,7 +100,8 @@ case class MarathonConfig(
   dst: Option[String],
   uriPrefix: Option[String],
   ttlMs: Option[Int],
-  useHealthCheck: Option[Boolean]
+  useHealthCheck: Option[Boolean],
+  httpAuth: Option[String]
 ) extends NamerConfig {
   import MarathonConfig._
 
@@ -132,9 +133,10 @@ case class MarathonConfig(
         new Authenticator.Authenticated(client, auth)
     }
 
+    val httpAuth0 = httpAuth.getOrElse("")
     val uriPrefix0 = uriPrefix.getOrElse("")
     val useHealthCheck0 = useHealthCheck.getOrElse(false)
-    val api = Api(service, uriPrefix0, useHealthCheck0)
+    val api = Api(service, uriPrefix0, useHealthCheck0, httpAuth0)
 
     val ttl = ttlMs.getOrElse(5000).millis
     new AppIdNamer(api, prefix, ttl)

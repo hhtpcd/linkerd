@@ -117,8 +117,8 @@ object Api {
     }
   }
 
-  def apply(client: Client, uriPrefix: String, useHealthCheck: Boolean): Api =
-    new AppIdApi(client, s"$uriPrefix/$versionString", useHealthCheck)
+  def apply(client: Client, uriPrefix: String, useHealthCheck: Boolean, httpAuth: String): Api =
+    new AppIdApi(client, s"$uriPrefix/$versionString", useHealthCheck, httpAuth)
 
   private[v2] def rspToAppIds(rsp: http.Response): Future[Api.AppIds] =
     rsp.status match {
@@ -175,7 +175,7 @@ object Api {
     }
 }
 
-private class AppIdApi(client: Api.Client, apiPrefix: String, useHealthCheck: Boolean)
+private class AppIdApi(client: Api.Client, apiPrefix: String, useHealthCheck: Boolean, httpAuth: String)
   extends Api
   with Closable {
 
@@ -185,11 +185,13 @@ private class AppIdApi(client: Api.Client, apiPrefix: String, useHealthCheck: Bo
 
   def getAppIds(): Future[Api.AppIds] = {
     val req = http.Request(s"$apiPrefix/apps")
+    req.headerMap.add(http.Fields.Authorization, "Basic " + httpAuth)
     Trace.letClear(client(req)).flatMap(rspToAppIds)
   }
 
   def getAddrs(app: Path): Future[Set[Address]] = {
     val req = http.Request(s"$apiPrefix/apps${app.show}?embed=app.tasks")
+    req.headerMap.add(http.Fields.Authorization, "Basic " + httpAuth)
     Trace.letClear(client(req)).flatMap(rspToAddrs(_, useHealthCheck))
   }
 }

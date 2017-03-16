@@ -185,13 +185,13 @@ private class AppIdApi(client: Api.Client, apiPrefix: String, useHealthCheck: Bo
 
   def getAppIds(): Future[Api.AppIds] = {
     val req = http.Request(s"$apiPrefix/apps")
-    req.headerMap.add(http.Fields.Authorization, "Basic " + httpAuth)
+    req.headerMap.add(http.Fields.Authorization, httpAuth)
     Trace.letClear(client(req)).flatMap(rspToAppIds)
   }
 
   def getAddrs(app: Path): Future[Set[Address]] = {
     val req = http.Request(s"$apiPrefix/apps${app.show}?embed=app.tasks")
-    req.headerMap.add(http.Fields.Authorization, "Basic " + httpAuth)
+    req.headerMap.add(http.Fields.Authorization, httpAuth)
     Trace.letClear(client(req)).flatMap(rspToAddrs(_, useHealthCheck))
   }
 }

@@ -28,6 +28,7 @@ class MarathonTest extends FunSuite {
                   |port:           80
                   |uriPrefix:      /marathon
                   |ttlMs:          300
+                  |httpAuth:       Basic c2VjcmV0OnBhc3N3b3Jk
                   |useHealthCheck: false
       """.stripMargin
 
@@ -38,6 +39,7 @@ class MarathonTest extends FunSuite {
     assert(marathon.uriPrefix.contains("/marathon"))
     assert(marathon._prefix.contains(Path.read("/io.l5d.marathon")))
     assert(marathon.ttlMs.contains(300))
+    assert(marathon.httpAuth.contains("Basic c2VjcmV0OnBhc3N3b3Jk"))
     assert(!marathon.disabled)
   }
 
@@ -49,6 +51,7 @@ class MarathonTest extends FunSuite {
                   |port:           80
                   |uriPrefix:      /marathon
                   |ttlMs:          300
+                  |httpAuth:       Basic c2VjcmV0OnBhc3N3b3Jk
                   |useHealthCheck: false
       """.stripMargin
 
@@ -59,6 +62,7 @@ class MarathonTest extends FunSuite {
     assert(marathon.uriPrefix.contains("/marathon"))
     assert(marathon._prefix.contains(Path.read("/io.l5d.marathon")))
     assert(marathon.ttlMs.contains(300))
+    assert(marathon.httpAuth.contains("Basic c2VjcmV0OnBhc3N3b3Jk"))
     assert(marathon.disabled)
   }
 }
